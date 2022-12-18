@@ -39,9 +39,11 @@ class CheckoutController extends Controller
         );
 
         $snapToken = Snap::getSnapToken($params);
+        $snapURL = Snap::getSnapUrl($params);
 
         return response()->json([
             'snapToken' => $snapToken,
+            'snapURL' => $snapURL,
         ]);
     }
 }

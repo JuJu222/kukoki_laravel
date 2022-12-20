@@ -54,7 +54,7 @@ class UserController extends Controller
         //If null, replace null value in variable into "No User Found"
         if(is_null($user)){$user="No User Found";}
 
-        //Return JSON response of two rows: Related user with 'user' as key.
+        //Return JSON response with value of related user with 'user' as key.
         return response()->json([
             'user' => $user
         ]);

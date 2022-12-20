@@ -24,3 +24,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/checkout', [CheckoutController::class, 'getSnapToken']);
 
 Route::get('/user', [UserController::class, 'index']);
+Route::get('/user/{user_id}', [UserController::class, 'show']);

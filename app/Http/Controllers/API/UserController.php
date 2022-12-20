@@ -16,8 +16,10 @@ class UserController extends Controller
      */
     public function index()
     {
+        //Fetch all users available in the database as a definition of users.
         $users = User::all();
 
+        //Return two JSON rows: Users_list as key and users data as value, and Response as key and response statement as value.
         return response()->json([
             'users_list' => $users,
             'response' => 'Successful Fetch, Response 200',
@@ -51,9 +53,14 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($user_id)
     {
-        //
+        $user = User::find($user_id);
+
+        return response()->json([
+            'user' => $user,
+            'response' => 'Successful Fetch, Response 200',
+        ]);
     }
 
     /**

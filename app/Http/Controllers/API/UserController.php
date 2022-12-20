@@ -16,14 +16,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        //Fetch all users available in the database as a definition of users.
-        $users = User::all();
-
-        //Return two JSON rows: Users_list as key and users data as value, and Response as key and response statement as value.
-        return response()->json([
-            'users_list' => $users,
-            'response' => 'Successful Fetch, Response 200',
-        ]);
+        //
     }
 
     /**
@@ -51,7 +44,7 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($user_id)
     {
@@ -61,10 +54,9 @@ class UserController extends Controller
         //If null, replace null value in variable into "No User Found"
         if(is_null($user)){$user="No User Found";}
 
-        //Return JSON response of two rows: Related user with 'user' as key, and response statement with 'response' as key.
+        //Return JSON response of two rows: Related user with 'user' as key.
         return response()->json([
-            'user' => $user,
-            'response' => 'Successful Fetch, Response 200',
+            'user' => $user
         ]);
     }
 

@@ -55,8 +55,13 @@ class UserController extends Controller
      */
     public function show($user_id)
     {
+        //Fetch user based on primary key
         $user = User::find($user_id);
 
+        //If null, replace null value in variable into "No User Found"
+        if(is_null($user)){$user="No User Found";}
+
+        //Return JSON response of two rows: Related user with 'user' as key, and response statement with 'response' as key.
         return response()->json([
             'user' => $user,
             'response' => 'Successful Fetch, Response 200',

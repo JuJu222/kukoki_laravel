@@ -40,7 +40,6 @@ class CheckoutController extends Controller
                 'phone' => $user->phone,
             ),
         );
-
         $snapURL = Snap::getSnapUrl($params);
 
         return response()->json([

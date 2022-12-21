@@ -17,11 +17,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
+//Return Midtrans' snap token in JSON to be passed on to the mobile app through existing User ID.
 Route::post('/checkout', [CheckoutController::class, 'getSnapToken']);
+
+//Add an order in database through POST API method.
 Route::post('/createOrder', [CheckoutController::class, 'createOrder']);
 
+//Get a single user based on a specific user ID.
 Route::get('/user/{user_id}', [UserController::class, 'getUser']);

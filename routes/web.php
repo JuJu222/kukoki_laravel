@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//Return welcome view when URL ends with '/'
 Route::get('/', function () {
     return view('welcome');
 });

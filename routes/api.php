@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\API\CheckoutController;
+use App\Http\Controllers\API\UserController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,3 +23,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/checkout', [CheckoutController::class, 'getSnapToken']);
 Route::post('/createOrder', [CheckoutController::class, 'createOrder']);
+
+Route::get('/user', [UserController::class, 'index']);
+Route::get('/user/{user_id}', [UserController::class, 'show']);

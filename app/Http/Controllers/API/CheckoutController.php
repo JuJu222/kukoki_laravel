@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Midtrans\Config;
 use Midtrans\Snap;
 
@@ -38,12 +42,33 @@ class CheckoutController extends Controller
             ),
         );
 
-        $snapToken = Snap::getSnapToken($params);
         $snapURL = Snap::getSnapUrl($params);
 
         return response()->json([
-            'snapToken' => $snapToken,
-            'snapURL' => $snapURL,
+            'snapURL' => $snapURL
+        ]);
+    }
+
+    function createOrder(Request $request) {
+        $order = Order::query()->create([
+            'user_id' => User::query()->find($request->userID)->id,
+            'date' => Carbon::now(),
+        ]);
+
+        foreach ($request->cart as $meal) {
+            OrderDetail::query()->create([
+                'user_id' => $request->userID,
+                'meal_id' => $meal['meal_id'],
+                'order_id' => $order->id,
+                'portion' => $meal['meal_id'],
+                'date' => $meal['date'],
+            ]);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'order' => $order,
+            'orderDetails' => OrderDetail::query()->where('order_id', $order->id)->get(),
         ]);
     }
 }

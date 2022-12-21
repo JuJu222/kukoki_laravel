@@ -20,3 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/checkout', [CheckoutController::class, 'getSnapToken']);
+Route::post('/createOrder', [CheckoutController::class, 'createOrder']);

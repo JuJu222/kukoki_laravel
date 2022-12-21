@@ -8,13 +8,12 @@ use App\Models\OrderDetail;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Midtrans\Config;
 use Midtrans\Snap;
 
 class CheckoutController extends Controller
 {
-    // Get Midtrans' snap token to be passed on to the mobile app
+    // Return Midtrans' snap token in JSON to be passed on to the mobile app
     function getSnapToken(Request $request) {
         // Set your Merchant Server Key
         Config::$serverKey = 'SB-Mid-server-KfV0RcPrjlTs3hf9D1jVRIgU';
@@ -24,8 +23,8 @@ class CheckoutController extends Controller
         Config::$isSanitized = true;
         // Set 3DS transaction for credit card to true
         Config::$is3ds = true;
-        $user = User::query()->find($request->userID);
-        // Seperate user's name into array of strings
+
+        $user = User::query()->findOrFail($request->userID);
         $nameArray = explode(" ", $user->full_name);
         $lastName = array_pop($nameArray);
         $firstName = implode(" ", $nameArray);
@@ -45,13 +44,15 @@ class CheckoutController extends Controller
         $snapURL = Snap::getSnapUrl($params);
 
         return response()->json([
+            'status' => 'success',
             'snapURL' => $snapURL
         ]);
     }
 
+    // Logs the order from the JSON request to the database
     function createOrder(Request $request) {
         $order = Order::query()->create([
-            'user_id' => User::query()->find($request->userID)->id,
+            'user_id' => User::query()->findOrFail($request->userID)->id,
             'date' => Carbon::now(),
         ]);
 

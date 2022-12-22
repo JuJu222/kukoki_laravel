@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\User;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
 use Midtrans\Config;
 use Midtrans\Snap;
@@ -55,13 +56,13 @@ class CheckoutController extends Controller
             'date' => Carbon::now(),
         ]);
 
-        foreach ($request->cart as $meal) {
+        foreach (json_decode($request->cart, true) as $meal) {
             OrderDetail::query()->create([
                 'user_id' => $request->userID,
                 'meal_id' => $meal['meal_id'],
                 'order_id' => $order->id,
                 'portion' => $meal['meal_id'],
-                'date' => $meal['date'],
+                'date' => DateTime::createFromFormat('d F Y', $meal['date'])->format('Y-m-d'),
             ]);
         }
 

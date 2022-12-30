@@ -9,8 +9,8 @@ use App\Models\User;
 class UserController extends Controller
 {
     // Return user object in JSON by user ID
-    function getUser($user_id) {
-        $user = User::findOrFail($user_id);
+    function getUser($userID) {
+        $user = User::findOrFail($userID);
 
         return response()->json([
             'status' => 'success',
